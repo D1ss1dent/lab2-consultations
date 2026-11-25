@@ -1,0 +1,51 @@
+$ docker compose ps
+NAME                              IMAGE                           STATUS                    PORTS
+lab2-consultations-db-1           postgres:16-alpine              Up 49 seconds (healthy)   5432/tcp
+lab2-consultations-lb-1           nginx:1.27-alpine               Up 36 seconds             0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
+lab2-consultations-prometheus-1   prom/prometheus:v2.55.1         Up 49 seconds             0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp
+lab2-consultations-web-1          lab2-consultations-web:latest   Up 43 seconds (healthy)   8000/tcp
+lab2-consultations-web-2          lab2-consultations-web:latest   Up 43 seconds (healthy)   8000/tcp
+lab2-consultations-web-3          lab2-consultations-web:latest   Up 44 seconds (healthy)   8000/tcp
+lab2-consultations-web-4          lab2-consultations-web:latest   Up 43 seconds (healthy)   8000/tcp
+
+$ 8 запитів GET http://127.0.0.1:8080/consultations/1 -> код і заголовок X-Pod
+200  X-Pod: d7ea10bfae2c  X-Upstream: 172.18.0.5:8000
+200  X-Pod: 6ace4391ecdd  X-Upstream: 172.18.0.6:8000
+200  X-Pod: 2312ca5f4da6  X-Upstream: 172.18.0.7:8000
+200  X-Pod: 906c42f3cca2  X-Upstream: 172.18.0.4:8000
+200  X-Pod: d7ea10bfae2c  X-Upstream: 172.18.0.5:8000
+200  X-Pod: 6ace4391ecdd  X-Upstream: 172.18.0.6:8000
+200  X-Pod: 2312ca5f4da6  X-Upstream: 172.18.0.7:8000
+200  X-Pod: 906c42f3cca2  X-Upstream: 172.18.0.4:8000
+
+$ GET /livez -> 200 {"status":"alive","pod":"d7ea10bfae2c"}
+$ GET /noop -> 204 (відповідає nginx, web не задіяний)
+
+$ GET /metrics -> 200, Content-Type: text/plain; version=0.0.4; charset=utf-8; фрагмент:
+  process_cpu_seconds_total 1.13
+  http_requests_total{code="200",method="GET",path="/healthz"} 9.0
+  http_requests_total{code="200",method="GET",path="/livez"} 16.0
+  http_requests_total{code="201",method="POST",path="/consultations"} 25.0
+  http_requests_total{code="200",method="GET",path="/consultations/{id}"} 2.0
+  http_request_duration_seconds_bucket{le="0.005",method="GET",path="/consultations/{id}"} 2.0
+  http_request_duration_seconds_bucket{le="+Inf",method="GET",path="/consultations/{id}"} 2.0
+  http_request_duration_seconds_count{method="GET",path="/consultations/{id}"} 2.0
+  http_requests_in_progress 0.0
+  db_pool_connections_busy 0.0
+  db_pool_requests_waiting 0.0
+  db_pool_wait_seconds_bucket{le="0.001"} 36.0
+  db_pool_wait_seconds_count 36.0
+  db_pool_size 15.0
+  app_instance_info{pod="6ace4391ecdd"} 1.0
+
+$ цілі Prometheus (job=web)
+  172.18.0.4:8000        up    lastScrape=2026-11-24T22:45:27 duration=2.0 ms
+  172.18.0.7:8000        up    lastScrape=2026-11-24T22:45:27 duration=2.4 ms
+  172.18.0.6:8000        up    lastScrape=2026-11-24T22:45:30 duration=1.1 ms
+  172.18.0.5:8000        up    lastScrape=2026-11-24T22:45:27 duration=1.6 ms
+
+$ ліміти контейнерів web
+  lab2-consultations-web-1  hostname=d7ea10bfae2c  ip=172.18.0.5  cpus=1.0  mem=768 MiB
+  lab2-consultations-web-2  hostname=6ace4391ecdd  ip=172.18.0.6  cpus=1.0  mem=768 MiB
+  lab2-consultations-web-3  hostname=906c42f3cca2  ip=172.18.0.4  cpus=1.0  mem=768 MiB
+  lab2-consultations-web-4  hostname=2312ca5f4da6  ip=172.18.0.7  cpus=1.0  mem=768 MiB

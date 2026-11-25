@@ -1,0 +1,40 @@
+{
+ "n": 4,
+ "gen_limit": 5146.2,
+ "containers": [
+  {
+   "name": "lab2-consultations-web-1",
+   "id": "79f512c03277",
+   "ip": "172.18.0.5",
+   "cpus": 1.0,
+   "mem_bytes": 805306368,
+   "hostname": "79f512c03277"
+  },
+  {
+   "name": "lab2-consultations-web-2",
+   "id": "58ab05950409",
+   "ip": "172.18.0.6",
+   "cpus": 1.0,
+   "mem_bytes": 805306368,
+   "hostname": "58ab05950409"
+  },
+  {
+   "name": "lab2-consultations-web-3",
+   "id": "779fd1a409f0",
+   "ip": "172.18.0.7",
+   "cpus": 1.0,
+   "mem_bytes": 805306368,
+   "hostname": "779fd1a409f0"
+  },
+  {
+   "name": "lab2-consultations-web-4",
+   "id": "b7f75bce2e73",
+   "ip": "172.18.0.8",
+   "cpus": 1.0,
+   "mem_bytes": 805306368,
+   "hostname": "b7f75bce2e73"
+  }
+ ],
+ "web_cpus_env": "",
+ "started": 1795567057.1350665
+}

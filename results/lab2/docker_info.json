@@ -1,0 +1,14 @@
+{
+ "docker_ncpu": 12,
+ "docker_mem_bytes": 16616980480,
+ "docker_mem_gib": 15.48,
+ "docker_server_version": "28.3.0",
+ "docker_os": "Docker Desktop",
+ "docker_kernel": "6.6.87.2-microsoft-standard-WSL2",
+ "cgroup_version": "2",
+ "host_platform": "Windows-10-10.0.26300-SP0",
+ "host_cpu_logical": 12,
+ "host_processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+ "python": "3.11.0",
+ "web_cpus_env": "1.0 (за замовчуванням)"
+}

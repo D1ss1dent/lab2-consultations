@@ -1,0 +1,24 @@
+{
+ "n": 2,
+ "gen_limit": 5146.2,
+ "containers": [
+  {
+   "name": "lab2-consultations-web-1",
+   "id": "79f512c03277",
+   "ip": "172.18.0.5",
+   "cpus": 1.0,
+   "mem_bytes": 805306368,
+   "hostname": "79f512c03277"
+  },
+  {
+   "name": "lab2-consultations-web-2",
+   "id": "58ab05950409",
+   "ip": "172.18.0.6",
+   "cpus": 1.0,
+   "mem_bytes": 805306368,
+   "hostname": "58ab05950409"
+  }
+ ],
+ "web_cpus_env": "",
+ "started": 1795566592.1347814
+}
